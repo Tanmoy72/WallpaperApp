@@ -38,6 +38,8 @@ import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.drawable.BitmapDrawable
 import android.os.Environment
+import android.view.View
+import android.widget.ProgressBar
 import android.widget.TextView
 import android.widget.Toast
 import okhttp3.Request
@@ -48,6 +50,7 @@ import java.io.IOException
 class MainActivity : AppCompatActivity() {
     private lateinit var searchEditText :EditText
     private lateinit var searchBtn :LinearLayout
+    private lateinit var progressBar :ProgressBar
     private var wallPaperViewList:ArrayList<WallPaperDataModel> = ArrayList()
     private lateinit var mainWallPaperRecyclerView: RecyclerView
     private lateinit var wallPaperAdapter:WallPaperAdapter
@@ -69,6 +72,7 @@ class MainActivity : AppCompatActivity() {
         mainWallPaperRecyclerView = findViewById(R.id.mainWallPaperRecyclerView)
         searchEditText = findViewById(R.id.searchEditText)
         searchBtn = findViewById(R.id.searchBtn)
+        progressBar = findViewById(R.id.progressBar)
 
 
         searchBtn.setOnClickListener {
@@ -80,40 +84,11 @@ class MainActivity : AppCompatActivity() {
         }
         implementCategoriesRecyclerView()
         fetchCuratedPhotos()
-
-
     }
 
-//    private fun showCustomPopup() {
-//        val dialog = Dialog(this)
-//        dialog.setContentView(R.layout.custom_popup) // Use your popup layout XML file here
-//        dialog.setCancelable(true)  // Set to false if you want to disable outside clicks
-//
-//        // Close button inside the popup
-//        val closePopupButton: ImageButton = dialog.findViewById(R.id.btnClose)
-//
-//        closePopupButton.setOnClickListener {
-//            dialog.dismiss()
-//        }
-//
-//        // Set up the 'Set as Home Screen' and 'Download Now' buttons if needed
-//        val homeScreenButton: Button = dialog.findViewById(R.id.homeScreenPopupBtn)
-//        val downloadButton: Button = dialog.findViewById(R.id.downloadPopupBtn)
-//
-//        // Perform actions on button clicks, e.g., downloading or setting as wallpaper
-//        homeScreenButton.setOnClickListener {
-//
-//            // Your code here for home screen action
-//        }
-//        downloadButton.setOnClickListener {
-//            // Your code here for download action
-//        }
-//
-//        dialog.show() // Display the dialog
-//    }
-
-
     fun searchApiCall(searchTxt:String){
+        progressBar.visibility = View.VISIBLE
+        mainWallPaperRecyclerView.visibility = View.GONE
         val callApiService = RetrofitInstance.api.getSearchPhotos(searchTxt)
         callApiService.enqueue(object : Callback<ResponseBody> {
             override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
@@ -126,17 +101,23 @@ class MainActivity : AppCompatActivity() {
                         Log.d("###JAPAN"," $rawJson}")
                     }
                 } else {
+                    progressBar.visibility = View.GONE
+                    mainWallPaperRecyclerView.visibility = View.VISIBLE
                     Log.d("###JAPAN"," ${response.code()} - ${response.message()}")
                     println("Error: ${response.code()} - ${response.message()}")
                 }
             }
 
             override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
+                progressBar.visibility = View.GONE
+                mainWallPaperRecyclerView.visibility = View.VISIBLE
                 t.printStackTrace() // Handle the error
             }
         })
     }
     fun fetchCuratedPhotos() {
+        progressBar.visibility = View.VISIBLE
+        mainWallPaperRecyclerView.visibility = View.GONE
         val call = RetrofitInstance.api.getCuratedPhotos(page = 25, perPage = 150)
         // Enqueue the call to execute asynchronously
         call.enqueue(object : Callback<ResponseBody> {
@@ -150,12 +131,16 @@ class MainActivity : AppCompatActivity() {
                         Log.d("###JAPAN"," $rawJson}")
                     }
                 } else {
+                    progressBar.visibility = View.GONE
+                    mainWallPaperRecyclerView.visibility = View.VISIBLE
                     Log.d("###JAPAN"," ${response.code()} - ${response.message()}")
                     println("Error: ${response.code()} - ${response.message()}")
                 }
             }
 
             override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
+                progressBar.visibility = View.GONE
+                mainWallPaperRecyclerView.visibility = View.VISIBLE
                 t.printStackTrace() // Handle the error
             }
         })
@@ -164,7 +149,16 @@ class MainActivity : AppCompatActivity() {
     private fun implementCategoriesRecyclerView(){
         categoriesItemImage.apply {
             layoutManager = LinearLayoutManager(this@MainActivity, LinearLayoutManager.HORIZONTAL, false)
-            categoriesAdapter = CategoriesAdapter(this@MainActivity)
+            categoriesAdapter = CategoriesAdapter(
+                this@MainActivity,
+                { model->
+                    searchApiCall(model.title)
+                Log.d("###JAPAN--------large--","${model}")
+            },{position->
+            Log.d("###JAPAN--------large--","${position}")
+            }
+
+            )
             adapter = categoriesAdapter
             categoriesAdapter.setCategoriesList(categoryList)
 
@@ -201,10 +195,9 @@ class MainActivity : AppCompatActivity() {
 
         }
         //Log.d("###JAPAN","${wallPaperViewList}")
+        progressBar.visibility = View.GONE
+        mainWallPaperRecyclerView.visibility = View.VISIBLE
         implementWallPaperRecyclerView(wallPaperViewList)
-
-
-
     }
 
     fun showFullScreenImageDialog(imageUrl: String) {

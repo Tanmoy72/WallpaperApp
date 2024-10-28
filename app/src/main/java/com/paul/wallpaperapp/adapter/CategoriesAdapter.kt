@@ -10,7 +10,10 @@ import androidx.recyclerview.widget.RecyclerView
 import com.paul.wallpaperapp.R
 import com.paul.wallpaperapp.model.CategoriesDataModel
 
-class CategoriesAdapter(private val context: Context):RecyclerView.Adapter<CategoriesAdapter.CategoriesViewHolder>() {
+class CategoriesAdapter(private val context: Context,
+                        private val categoryImageClick:(CategoriesDataModel)->Unit,
+                        private val itemPosition :(Int) ->Unit
+    ):RecyclerView.Adapter<CategoriesAdapter.CategoriesViewHolder>() {
 
     private var categoriesList :ArrayList<CategoriesDataModel> = ArrayList()
     fun setCategoriesList(newList: ArrayList<CategoriesDataModel>) {
@@ -32,6 +35,12 @@ class CategoriesAdapter(private val context: Context):RecyclerView.Adapter<Categ
         val currentItem = categoriesList[position]
         holder.categoriesItemText.text = currentItem.title
         holder.categoriesItemImage.setImageResource(currentItem.image)
+        holder.itemView.setOnClickListener {
+            categoryImageClick.invoke(currentItem)
+        }
+        holder.categoriesItemText.setOnClickListener{
+            itemPosition.invoke(position)
+        }
     }
     class CategoriesViewHolder(itemView: View):RecyclerView.ViewHolder(itemView){
         val categoriesItemImage :ImageView = itemView.findViewById(R.id.categoriesItemImage)
