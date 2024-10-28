@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:background="@color/white"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+   >
+
+    <ImageButton
+        android:id="@+id/btnClose"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:src="@drawable/close"
+        android:background="@drawable/close_btn_bk"
+        android:layout_marginTop="30dp"
+        android:layout_marginRight="20dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintRight_toRightOf="parent"/>
+    <LinearLayout
+        android:id="@+id/popUpLayout"
+        android:layout_width="match_parent"
+        android:layout_marginTop="70dp"
+        android:layout_height="500dp"
+
+        android:layout_marginHorizontal="20dp"
+        app:layout_constraintTop_toTopOf="parent">
+        <ImageView
+            android:id="@+id/popUpImage"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:src="@drawable/pexel"
+            />
+
+    </LinearLayout>
+    <TextView
+        android:id="@+id/homeScreenPopupBtn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="SET AS HOMESCREEN"
+        android:padding="20dp"
+        android:gravity="center"
+        android:layout_marginBottom="30dp"
+        android:background="@drawable/searchbtn"
+        android:layout_marginHorizontal="20dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintLeft_toRightOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"/>
+    <TextView
+        android:id="@+id/downloadPopupBtn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="DOWNLOAD NOW"
+        android:padding="20dp"
+        android:gravity="center"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/searchbtn"
+        android:layout_marginBottom="15dp"
+        android:layout_marginHorizontal="20dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintLeft_toRightOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/homeScreenPopupBtn"/>
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

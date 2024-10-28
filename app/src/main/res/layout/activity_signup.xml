@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activity.SignupActivity">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center_vertical"
+        android:paddingStart="30dp"
+        android:layout_marginEnd="30dp"
+        android:orientation="vertical">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Stay Connected "
+            android:textColor="#3D5AFE"
+            android:textSize="24dp"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:textSize="16sp"
+            android:textColor="#3D5AFE"
+            android:text="Enter your email address and password\n to get access to your account"/>
+        <EditText
+            android:id="@+id/emailEditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Email"
+
+            android:background="@drawable/edittextbg"
+            android:textSize="14sp"
+            android:layout_marginTop="10dp"
+            android:inputType="textEmailAddress"/>
+        <EditText
+            android:id="@+id/passwordEditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Passwords"
+
+            android:background="@drawable/edittextbg"
+            android:textSize="14sp"
+            android:layout_marginTop="10dp"
+            android:inputType="textPassword"/>
+        <EditText
+            android:id="@+id/conformPassword"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Conform Passwords"
+            android:background="@drawable/edittextbg"
+            android:textSize="14sp"
+            android:layout_marginTop="10dp"
+            android:inputType="textPassword"/>
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnSinUp"
+            android:textColor="@color/white"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Sign Up "
+            android:background="@drawable/btn_primary"
+            android:layout_marginTop="30dp" />
+        <TextView
+
+            android:id="@+id/loginPage"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Alrady have Account ? Login"
+            android:layout_marginTop="10dp"
+            android:textAlignment="center"/>
+
+
+
+
+    </LinearLayout>
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="130dp"
+        android:src="@drawable/wave_bg"
+        android:scaleType="centerCrop"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"/>
+</androidx.constraintlayout.widget.ConstraintLayout>
